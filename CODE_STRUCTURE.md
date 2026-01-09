@@ -3,7 +3,7 @@
 This document provides a high-level overview of the project's file structure and the purpose of key components. **Agents MUST read this file before modifying source code to understand where logic resides.**
 
 ## Project Root
-- `webpack.config.js`: Configuration for bundling the extension. Defines entry points (`content_script`, `options`) and uses `copy-webpack-plugin` to move static assets.
+- `webpack.config.js`: Configuration for bundling the extension. Defines entry points (`content_script`, `options`, `background`) and uses `copy-webpack-plugin` to move static assets.
 - `package.json`: Dependencies (`luxon`, `webpack`) and scripts (`npm run build`).
 - `DESIGN.md`: The living design document and implementation plan.
 - `AGENTS.md`: Operational instructions for AI agents working on this repo.
@@ -13,20 +13,26 @@ This document provides a high-level overview of the project's file structure and
 The source of truth for the extension.
 
 ### 1. Manifest
-- `src/manifest.json`: The extension's configuration (Manifest V3). Defines permissions (`storage`), content scripts matches, and the options page.
+- `src/manifest.json`: The extension's configuration (Manifest V3). Defines permissions (`storage`, `contextMenus`), background service worker, content scripts matches, and the options page.
 
-### 2. Content Script (Core Logic)
+### 2. Background Script
+- `src/background.js`: Handles extension-level events.
+    - **Purpose**: Manages the context menu (Right-click "Copy Timestamp").
+    - **Logic**: Receives detected time conversions from the content script and updates the context menu items dynamically. Sends "copy" commands back to the active tab.
+
+### 3. Content Script (Core Logic)
 - `src/content_script.js`: The "brain" of the extension.
-    - **Purpose**: Runs on web pages, detects time strings, and shows the tooltip.
+    - **Purpose**: Runs on web pages, detects time strings, shows the tooltip, and communicates with the background script.
     - **Key Functions**:
         - `handleMouseMove`: Debounced event listener for hover detection.
         - `getCaretFromPoint`: Utilities to find the text node under the cursor.
         - `extractTimeContext`: Iterates through `TIME_PATTERNS` regex array to find date strings.
         - `convertTime`: Uses `luxon` and native `Date` to convert the string to target timezones.
         - `showTooltip` / `removeTooltip`: DOM manipulation to render the floating UI.
+    - **Communication**: Sends detected conversions to `background.js` to update the context menu. Listens for `COPY_TEXT` messages to write to the clipboard.
     - **Configuration**: Loads user preferences (`targetTimezones`) from `chrome.storage.sync`.
 
-### 3. Options Page (Settings)
+### 4. Options Page (Settings)
 - `src/options.html`: The UI for the extension settings page.
 - `src/options.js`: Logic for the settings page.
     - **Purpose**: Allows users to add/remove target timezones.

@@ -84,3 +84,4 @@ This file outlines the standards, commands, and conventions for AI agents workin
   - Be proactive.
   - Verify assumptions by reading code.
   - Do not ask for permission to fix obvious bugs found during exploration.
+  - Always state what instruction files you've read at the beginning of each session.

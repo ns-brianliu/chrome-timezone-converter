@@ -181,6 +181,11 @@ function handleMouseMove(e) {
       const conversions = convertTime(timeString);
       if (conversions) {
         showTooltip(timeString, conversions, e.clientX, e.clientY);
+        // Notify background to update context menu
+        chrome.runtime.sendMessage({
+            type: 'UPDATE_CONTEXT_MENU',
+            conversions: conversions
+        });
         return; // Success, don't remove tooltip
       }
     }
@@ -264,8 +269,23 @@ function removeTooltip() {
   if (currentTooltip) {
     currentTooltip.remove();
     currentTooltip = null;
+    
+    // Clear context menu when tooltip hides
+    chrome.runtime.sendMessage({
+        type: 'UPDATE_CONTEXT_MENU',
+        conversions: []
+    });
   }
 }
 
 // --- Initialization ---
 document.addEventListener('mousemove', handleMouseMove);
+
+// Listen for messages from background
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.type === 'COPY_TEXT') {
+        navigator.clipboard.writeText(request.text).catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+    }
+});

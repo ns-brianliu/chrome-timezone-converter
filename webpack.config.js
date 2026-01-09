@@ -6,6 +6,7 @@ module.exports = {
   entry: {
     content_script: './src/content_script.js',
     options: './src/options.js',
+    background: './src/background.js',
   },
   output: {
     filename: '[name].js',

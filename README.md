@@ -5,6 +5,7 @@ A Chrome extension that automatically converts timestamps and dates on web pages
 ## Features
 
 - **Automatic Conversion**: Detects and converts timestamps (Unix, ISO 8601, etc.) on web pages.
+- **Copy to Clipboard**: Right-click on any recognized timestamp to copy its converted value to your clipboard.
 - **Configurable**: Options to customize the output format (if applicable).
 - **Lightweight**: Minimal impact on page performance.
 
@@ -42,6 +43,7 @@ The extension detects and converts the following date/time formats on hover:
 
 
 ![Demo](./docs/demo.png)
+![Right click to copy](./docs/copy-on-right-click.png)
 ![Config](./docs/timezone-configurations.png)
 
 ## Installation
