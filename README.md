@@ -8,6 +8,39 @@ A Chrome extension that automatically converts timestamps and dates on web pages
 - **Configurable**: Options to customize the output format (if applicable).
 - **Lightweight**: Minimal impact on page performance.
 
+## Supported Formats
+
+The extension detects and converts the following date/time formats on hover:
+
+1. **Standard Date Time (with AM/PM)**
+   - `YYYY-MM-DD H:mm:ss AM/PM [Offset]`
+   - Example: `2026-01-09 2:58:42 AM`, `2026-01-09 10:58:42 AM +0800`
+
+2. **Verbose Format**
+   - `MonthName DD, YYYY at H:mm AM/PM`
+   - Example: `November 6, 2025 at 4:59 PM`
+
+3. **User Specific / Log Format**
+   - `YYYY-MM-DD HH:mm:ss [Zone/Offset]`
+   - Example: `2026-01-08 00:49:28 PST`, `2026-01-08 00:49:28 +0000`, `2026-01-08 00:49:28`
+
+4. **ISO-8601**
+   - `YYYY-MM-DDTHH:mm:ss.sssZ` (with optional milliseconds and offset)
+   - Example: `2026-01-08T00:49:28Z`, `2026-01-08T00:49:28.123+05:30`
+
+5. **RFC 2822 / Email Format**
+   - `Day, DD Mon YYYY HH:mm:ss Offset`
+   - Example: `Thu, 08 Jan 2026 00:49:28 +0000`
+
+6. **US Slash Format**
+   - `MM/DD/YYYY HH:mm:ss`
+   - Example: `01/08/2026 14:30`, `01/08/2026 02:30 PM`
+
+7. **Short ISO**
+   - `YYYY-MM-DD HH:mm`
+   - Example: `2026-01-09 14:00`
+
+
 ![Demo](./docs/demo.png)
 ![Config](./docs/timezone-configurations.png)
 
