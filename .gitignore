@@ -26,6 +26,7 @@ yarn-error.log*
 .vscode/
 *.swp
 *.swo
+Session.vim
 
 # Testing
 coverage/
